@@ -1,1 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Diet Plan @ 75kg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080b0f;
+  --s1: #0f1318;
+  --s2: #141920;
+  --s3: #1a2028;
+  --gold: #c8973a;
+  --gold2: #e8b85a;
+  --gold3: #f5d080;
+  --gold-glow: rgba(200,151,58,0.18);
+  --green: #4ab87a;
+  --green-dim: rgba(74,184,122,0.1);
+  --teal: #3db5a8;
+  --teal-dim: rgba(61,181,168,0.1);
+  --coral: #e06b55;
+  --coral-dim: rgba(224,107,85,0.1);
+  --lavender: #9b8fdb;
+  --lav-dim: rgba(155,143,219,0.1);
+  --amber: #e0a040;
+  --amber-dim: rgba(224,160,64,0.1);
+  --text: #ddd9d0;
+  --text2: #9a9590;
+  --border: rgba(200,151,58,0.15);
+  --border-s: rgba(255,255,255,0.05);
+  --nav-h: 62px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
 
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom) + 16px);
+}
+
+/* grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+/* ambient orbs */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(80px);}
+.orb-a{width:500px;height:500px;background:radial-gradient(circle,rgba(200,151,58,0.08),transparent 70%);top:-180px;right:-150px;}
+.orb-b{width:400px;height:400px;background:radial-gradient(circle,rgba(74,184,122,0.06),transparent 70%);bottom:-100px;left:-120px;}
+
+.wrap{position:relative;z-index:1;max-width:1380px;margin:0 auto;padding:0 16px 24px;}
+
+/* ── HERO ── */
+.hero{
+  padding:36px 0 28px;
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;gap:20px;
+}
+.hero-tag{
+  font-size:10px;font-weight:600;letter-spacing:3.5px;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:10px;
+}
+.hero-tag::before{content:'';width:20px;height:1px;background:var(--gold);}
+h1.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(38px,9vw,76px);font-weight:700;
+  line-height:0.9;letter-spacing:-1px;color:var(--text);
+}
+h1.hero-title em{color:var(--gold);font-style:italic;}
+.hero-desc{font-size:13px;color:var(--text2);line-height:1.6;max-width:520px;}
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+.stat{
+  background:var(--s2);border:1px solid var(--border-s);
+  border-radius:12px;padding:12px 14px;
+  transition:border-color .2s;
+}
+.stat:active{border-color:var(--gold);}
+.stat-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:700;color:var(--gold2);line-height:1;
+}
+.stat-l{font-size:10px;color:var(--text2);margin-top:2px;letter-spacing:.3px;}
+
+/* ── DESKTOP TABS ── */
+.desk-tabs{
+  display:none;
+  gap:2px;padding:18px 0 0;
+  border-bottom:1px solid var(--border-s);
+  overflow-x:auto;scrollbar-width:none;
+}
+.desk-tabs::-webkit-scrollbar{display:none;}
+.dtab{
+  font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  color:var(--text2);background:none;border:none;
+  padding:8px 18px 12px;cursor:pointer;white-space:nowrap;
+  position:relative;transition:color .2s;font-family:'Outfit',sans-serif;
+}
+.dtab::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--gold);transform:scaleX(0);transition:transform .3s;
+  border-radius:2px 2px 0 0;
+}
+.dtab.active{color:var(--gold2);}
+.dtab.active::after{transform:scaleX(1);}
+
+/* ── BOTTOM NAV ── */
+.bnav{
+  position:fixed;bottom:0;left:0;right:0;
+  height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(10,12,16,0.96);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border-top:1px solid var(--border-s);
+  display:grid;grid-template-columns:repeat(5,1fr);
+  z-index:200;
+}
+.bn{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;border:none;background:none;cursor:pointer;
+  padding:6px 4px;-webkit-tap-highlight-color:transparent;
+  transition:opacity .2s;position:relative;
+}
+.bn:active{opacity:.5;}
+.bn.active::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:28px;height:2px;background:var(--gold);border-radius:0 0 4px 4px;
+}
+.bn-ico{font-size:18px;line-height:1;}
+.bn-lbl{font-size:9px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--text2);font-family:'Outfit',sans-serif;transition:color .2s;}
+.bn.active .bn-lbl{color:var(--gold);}
+
+/* ── PANELS ── */
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ── SECTION LABEL ── */
+.sec-lbl{
+  font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:16px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-lbl::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.section{padding:24px 0 8px;}
+
+/* ── ROUTINE STRIP ── */
+.routine-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+}
+.rc{
+  background:var(--s2);border:1px solid var(--border-s);
+  border-radius:11px;padding:13px 12px;
+  border-left:3px solid transparent;
+  transition:border-color .2s;
+}
+.rc:active{border-color:var(--gold);}
+.rc.gold{border-left-color:var(--gold);}
+.rc.green{border-left-color:var(--green);}
+.rc.coral{border-left-color:var(--coral);}
+.rc.teal{border-left-color:var(--teal);}
+.rc-time{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:4px;}
+.rc.gold .rc-time{color:var(--gold);}
+.rc.green .rc-time{color:var(--green);}
+.rc.coral .rc-time{color:var(--coral);}
+.rc.teal .rc-time{color:var(--teal);}
+.rc-name{font-size:13px;font-weight:500;color:var(--text);line-height:1.3;}
+.rc-note{font-size:11px;color:var(--text2);margin-top:3px;}
+
+/* ── DAY PILLS ── */
+.day-pills{
+  display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;padding-bottom:2px;margin-bottom:16px;
+}
+.day-pills::-webkit-scrollbar{display:none;}
+.dpill{
+  font-size:11px;font-weight:600;letter-spacing:.5px;
+  padding:9px 16px;border-radius:100px;flex-shrink:0;
+  background:var(--s2);border:1px solid var(--border-s);
+  color:var(--text2);cursor:pointer;white-space:nowrap;
+  transition:all .2s;-webkit-tap-highlight-color:transparent;
+  font-family:'Outfit',sans-serif;
+}
+.dpill.active{background:var(--gold);color:#080b0f;border-color:var(--gold);box-shadow:0 0 18px rgba(200,151,58,.28);}
+
+/* ── DAY PANEL ── */
+.day-view{display:none;flex-direction:column;gap:10px;}
+.day-view.active{display:flex;}
+
+/* daily total banner */
+.day-banner{
+  background:linear-gradient(135deg,var(--s3) 0%,var(--s2) 100%);
+  border:1px solid var(--border);
+  border-radius:14px;padding:16px 18px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:8px;
+}
+.db-left .db-day{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:var(--text);}
+.db-left .db-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+.db-right{text-align:right;}
+.db-right .db-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold2);line-height:1;}
+.db-right .db-unit{font-size:10px;color:var(--text2);letter-spacing:.5px;}
+
+/* ── MEAL CARD ── */
+.mc{
+  background:var(--s2);
+  border:1px solid var(--border-s);
+  border-radius:14px;padding:16px;
+  position:relative;overflow:hidden;
+  transition:border-color .2s;
+}
+.mc:active{transform:scale(.993);}
+/* color bar at top */
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.mc.b::before{background:linear-gradient(90deg,var(--gold),var(--gold2));}
+.mc.l::before{background:linear-gradient(90deg,var(--teal),#7ee8e0);}
+.mc.s::before{background:linear-gradient(90deg,var(--green),#90e8b8);}
+.mc.d::before{background:linear-gradient(90deg,var(--lavender),#c0b8f8);}
+
+.mc-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.mc-type{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;}
+.mc.b .mc-type{color:var(--gold);}
+.mc.l .mc-type{color:var(--teal);}
+.mc.s .mc-type{color:var(--green);}
+.mc.d .mc-type{color:var(--lavender);}
+.mc-time{font-size:10px;color:var(--text2);}
+
+/* main item */
+.mc-main{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px;line-height:1.4;}
+
+/* option chips */
+.options-label{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);margin-bottom:7px;margin-top:10px;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{
+  padding:5px 11px;border-radius:100px;font-size:11px;font-weight:500;
+  background:var(--s3);border:1px solid var(--border-s);color:var(--text2);
+  cursor:pointer;transition:all .18s;-webkit-tap-highlight-color:transparent;
+  font-family:'Outfit',sans-serif;
+}
+.chip:active,.chip.sel{background:var(--s1);border-color:var(--gold);color:var(--gold2);}
+.mc.l .chip:active,.mc.l .chip.sel{border-color:var(--teal);color:var(--teal);}
+.mc.s .chip:active,.mc.s .chip.sel{border-color:var(--green);color:var(--green);}
+.mc.d .chip:active,.mc.d .chip.sel{border-color:var(--lavender);color:var(--lavender);}
+
+.pbadge{
+  display:inline-flex;align-items:center;gap:4px;
+  margin-top:12px;padding:4px 11px;
+  background:var(--green-dim);border:1px solid rgba(74,184,122,.2);
+  border-radius:100px;font-size:11px;font-weight:600;color:var(--green);
+  font-family:'Outfit',sans-serif;
+}
+.pbadge::before{content:'↑';font-size:10px;}
+
+/* egg badge */
+.egg-badge{
+  position:absolute;top:12px;right:12px;
+  background:rgba(224,107,85,.12);border:1px solid rgba(224,107,85,.3);
+  color:var(--coral);font-size:9px;font-weight:700;letter-spacing:.5px;
+  padding:2px 8px;border-radius:100px;font-family:'Outfit',sans-serif;
+}
+
+/* post-gym banner */
+.gym-banner{
+  background:linear-gradient(135deg,rgba(74,184,122,.08),rgba(200,151,58,.06));
+  border:1px solid rgba(74,184,122,.2);
+  border-radius:14px;padding:14px 16px;
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.gym-ico{font-size:22px;flex-shrink:0;}
+.gym-text .gym-t{font-size:13px;font-weight:600;color:var(--green);}
+.gym-text .gym-s{font-size:11px;color:var(--text2);margin-top:2px;}
+.gym-badge{
+  margin-left:auto;background:var(--green-dim);border:1px solid rgba(74,184,122,.25);
+  border-radius:100px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--green);
+  white-space:nowrap;
+}
+
+/* rest day badge */
+.rest-banner{
+  background:var(--s2);border:1px solid var(--border-s);
+  border-radius:14px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;
+}
+.rest-banner .rb-t{font-size:13px;color:var(--text2);}
+.rest-banner .rb-note{font-size:11px;color:var(--text2);opacity:.7;margin-top:1px;}
+
+/* ── WEEKLY TABLE ── */
+.table-scroll{overflow-x:auto;border-radius:14px;border:1px solid var(--border-s);-webkit-overflow-scrolling:touch;}
+.scroll-hint{font-size:11px;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.scroll-hint::before{content:'←→';font-size:10px;opacity:.6;}
+.wtbl{width:100%;border-collapse:collapse;min-width:780px;}
+.wtbl th{
+  background:var(--s3);padding:11px 10px;
+  font-family:'Outfit',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);
+  border-bottom:1px solid var(--border);text-align:left;white-space:nowrap;
+}
+.wtbl th:first-child{color:var(--text2);width:76px;}
+.wtbl td{
+  padding:10px;border-bottom:1px solid var(--border-s);
+  font-size:12px;color:var(--text);vertical-align:top;line-height:1.5;min-width:96px;
+}
+.wtbl tr:last-child td{border-bottom:none;}
+.wtbl td:first-child{font-family:'Outfit',sans-serif;font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--text2);vertical-align:middle;white-space:nowrap;}
+.wtbl tr:hover td{background:rgba(255,255,255,.015);}
+.wtbl .rb td:first-child{color:var(--gold);}
+.wtbl .rl td:first-child{color:var(--teal);}
+.wtbl .rs td:first-child{color:var(--green);}
+.wtbl .rd td:first-child{color:var(--lavender);}
+.wtbl .rp td{background:var(--green-dim);font-weight:600;color:var(--green);font-size:11px;text-align:center;}
+.wtbl .rp td:first-child{color:var(--green);}
+.wtbl .rt td{background:var(--s3);font-weight:700;color:var(--gold2);font-size:12px;text-align:center;font-family:'Outfit',sans-serif;}
+.wtbl .rt td:first-child{color:var(--gold);}
+.wtbl .rgym td{background:rgba(74,184,122,.06);color:var(--green);font-size:11px;}
+.wtbl .rgym td:first-child{color:var(--green);}
+.alt-t{color:var(--text2);font-style:italic;font-size:11px;display:block;margin-top:2px;}
+
+/* ── PROTEIN CHART ── */
+.chart-wrap{display:flex;flex-direction:column;gap:20px;}
+.legend{display:flex;gap:12px;flex-wrap:wrap;}
+.leg-i{font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px;}
+.leg-dot{width:8px;height:8px;border-radius:2px;display:inline-block;flex-shrink:0;}
+.bars{display:flex;gap:8px;align-items:flex-end;height:160px;}
+.breakdown-box{background:var(--s2);border:1px solid var(--border-s);border-radius:14px;padding:16px;}
+.bx-title{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+.bx-rows{display:flex;flex-direction:column;gap:10px;}
+.target-box{background:var(--green-dim);border:1px solid rgba(74,184,122,.22);border-radius:14px;padding:14px;}
+.target-box .tt{font-size:13px;color:var(--green);font-weight:600;margin-bottom:4px;}
+.target-box .ts{font-size:12px;color:var(--text2);line-height:1.5;}
+
+/* ── TRACKER ── */
+.today-card{
+  background:var(--s2);border:1px solid var(--border);
+  border-radius:16px;padding:18px;margin-bottom:20px;
+}
+.tc-day{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--text);}
+.tc-date{font-size:11px;color:var(--text2);margin-bottom:14px;margin-top:2px;}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.ci{
+  display:flex;align-items:center;gap:9px;cursor:pointer;
+  padding:10px 11px;border-radius:10px;
+  background:var(--s3);border:1px solid var(--border-s);
+  transition:all .18s;-webkit-tap-highlight-color:transparent;
+  min-height:44px;
+}
+.ci:active{transform:scale(.96);}
+.ci.done{background:var(--green-dim);border-color:rgba(74,184,122,.28);}
+.cbox{
+  width:18px;height:18px;border-radius:5px;flex-shrink:0;
+  border:1.5px solid rgba(255,255,255,.1);background:transparent;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .18s;font-size:10px;font-weight:700;
+}
+.ci.done .cbox{background:var(--green);border-color:var(--green);color:#080b0f;}
+.clbl{font-size:12px;color:var(--text2);line-height:1.3;}
+.ci.done .clbl{color:var(--text);}
+
+.pbar-wrap{background:var(--s3);border-radius:100px;height:5px;margin:14px 0 6px;overflow:hidden;}
+.pbar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));border-radius:100px;transition:width .4s ease;}
+.pbar-txt{font-size:11px;color:var(--text2);}
+
+.week-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;margin-bottom:14px;-webkit-overflow-scrolling:touch;}
+.week-tabs::-webkit-scrollbar{display:none;}
+.wt-btn{
+  font-size:11px;font-weight:600;letter-spacing:.4px;flex-shrink:0;
+  padding:8px 14px;border-radius:100px;
+  background:var(--s2);border:1px solid var(--border-s);
+  color:var(--text2);cursor:pointer;white-space:nowrap;
+  transition:all .18s;-webkit-tap-highlight-color:transparent;font-family:'Outfit',sans-serif;
+}
+.wt-btn.active{background:var(--gold);color:#080b0f;border-color:var(--gold);}
+
+/* ── GUIDELINES ── */
+.guide-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+.gc{
+  background:var(--s2);border:1px solid var(--border-s);
+  border-radius:14px;padding:16px;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:border-color .2s;
+}
+.gc:active{border-color:var(--gold);}
+.gc-ico{font-size:26px;line-height:1;flex-shrink:0;margin-top:2px;}
+.gc-body{}
+.gc-t{font-size:14px;font-weight:600;color:var(--text);margin-bottom:2px;}
+.gc-s{font-size:11px;color:var(--gold);margin-bottom:10px;font-style:italic;}
+.gc-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.gc-list li{font-size:12px;color:var(--text2);padding-left:14px;position:relative;line-height:1.4;}
+.gc-list li::before{content:'·';position:absolute;left:0;color:var(--gold);font-size:16px;line-height:1.2;}
+
+.avoid-wrap{display:flex;flex-wrap:wrap;gap:7px;}
+.av-chip{
+  padding:7px 13px;border-radius:100px;
+  background:rgba(224,107,85,.07);border:1px solid rgba(224,107,85,.18);
+  color:var(--coral);font-size:12px;font-weight:500;
+  display:flex;align-items:center;gap:5px;
+}
+.av-chip::before{content:'×';font-size:11px;opacity:.7;}
+
+/* ── FOOTER ── */
+.footer{border-top:1px solid var(--border);padding-top:20px;margin-top:28px;text-align:center;}
+.ft-note{font-size:11px;color:var(--text2);font-style:italic;margin-bottom:4px;}
+.ft-tag{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:.45;}
+
+/* ── ANIMATIONS ── */
+@keyframes up{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.fade{animation:up .4s ease both;}
+.fd1{animation-delay:.05s;}.fd2{animation-delay:.1s;}.fd3{animation-delay:.15s;}.fd4{animation-delay:.2s;}.fd5{animation-delay:.25s;}
+
+/* ── DESKTOP ── */
+@media(min-width:700px){
+  body{padding-bottom:0;}
+  .bnav{display:none;}
+  .desk-tabs{display:flex;}
+  .wrap{padding:0 28px 48px;}
+  .hero{padding:52px 0 36px;flex-direction:row;align-items:flex-end;justify-content:space-between;}
+  .hero-right{min-width:260px;}
+  .stats-row{grid-template-columns:repeat(4,1fr);min-width:340px;}
+  .routine-grid{grid-template-columns:repeat(4,1fr);}
+  .day-view.active{display:grid;grid-template-columns:repeat(2,1fr);}
+  .mc.full{grid-column:span 2;}
+  .chart-wrap{flex-direction:row;}
+  .chart-wrap>div:first-child{flex:1;}
+  .chart-wrap>div:last-child{flex:0 0 280px;}
+  .bars{height:200px;}
+  .guide-grid{grid-template-columns:repeat(2,1fr);}
+  .checks{grid-template-columns:repeat(3,1fr);}
+}
+@media(min-width:1060px){
+  .day-view.active{grid-template-columns:repeat(4,1fr);}
+  .mc.full{grid-column:span 4;}
+  .guide-grid{grid-template-columns:repeat(3,1fr);}
+  .routine-grid{grid-template-columns:repeat(7,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="orb orb-a"></div>
+<div class="orb orb-b"></div>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">Priyam Somani · 75 kg · Gym 4–5×/week</div>
+    <h1 class="hero-title">Diet Plan<br><em>Rebuilt.</em></h1>
+    <p class="hero-desc">Trainer-merged · No pre-gym meal · Eggs max 2×/week · Evening workout (5–7 PM) · Whey + creatine post-gym</p>
+  </div>
+  <div class="hero-right">
+    <div class="stats-row">
+      <div class="stat fade fd1"><div class="stat-n">~120g</div><div class="stat-l">protein / day</div></div>
+      <div class="stat fade fd2"><div class="stat-n">5g</div><div class="stat-l">creatine daily</div></div>
+      <div class="stat fade fd3"><div class="stat-n">3–3.5L</div><div class="stat-l">water daily</div></div>
+      <div class="stat fade fd4"><div class="stat-n">45g</div><div class="stat-l">whey post-gym</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- DESKTOP TABS -->
+<div class="desk-tabs">
+  <button class="dtab active" onclick="switchTab('daily',this)">Daily View</button>
+  <button class="dtab" onclick="switchTab('weekly',this)">Weekly Table</button>
+  <button class="dtab" onclick="switchTab('protein',this)">Protein Chart</button>
+  <button class="dtab" onclick="switchTab('tracker',this)">Tracker</button>
+  <button class="dtab" onclick="switchTab('guidelines',this)">Guidelines</button>
+</div>
+
+<!-- ══════ DAILY VIEW ══════ -->
+<div id="tab-daily" class="panel active">
+  <div class="section">
+    <div class="sec-lbl">Daily Routine · Every Day</div>
+    <div class="routine-grid">
+      <div class="rc gold fade fd1"><div class="rc-time">8–9 AM · Wake up</div><div class="rc-name">2 glasses warm water</div><div class="rc-note">+ cinnamon</div></div>
+      <div class="rc gold fade fd2"><div class="rc-time">After 15 min</div><div class="rc-name">5 almonds + 2 walnuts</div><div class="rc-note">Soaked overnight</div></div>
+      <div class="rc gold fade fd3"><div class="rc-time">After nuts</div><div class="rc-name">Black coffee</div><div class="rc-note">No sugar · no milk</div></div>
+      <div class="rc teal fade fd4"><div class="rc-time">5–7 PM · Post-gym</div><div class="rc-name">Whey (45g) + Creatine (5g)</div><div class="rc-note">On gym days only</div></div>
+      <div class="rc green fade fd5"><div class="rc-time">All day</div><div class="rc-name">3–3.5L water</div><div class="rc-note">10–15 glasses · creatine needs hydration</div></div>
+      <div class="rc gold"><div class="rc-time">Post dinner</div><div class="rc-name">Green tea</div><div class="rc-note">Aids digestion</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-lbl">Meals by Day</div>
+    <div class="day-pills" id="dayPills">
+      <button class="dpill" onclick="switchDay('mon',this)">Mon</button>
+      <button class="dpill" onclick="switchDay('tue',this)">Tue</button>
+      <button class="dpill" onclick="switchDay('wed',this)">Wed</button>
+      <button class="dpill" onclick="switchDay('thu',this)">Thu</button>
+      <button class="dpill" onclick="switchDay('fri',this)">Fri</button>
+      <button class="dpill" onclick="switchDay('sat',this)">Sat</button>
+      <button class="dpill" onclick="switchDay('sun',this)">Sun</button>
+    </div>
+
+    <!-- ─── MONDAY ─── -->
+    <div id="dv-mon" class="day-view">
+      <div class="day-banner fade">
+        <div class="db-left"><div class="db-day">Monday</div><div class="db-sub">Gym day · whey post-workout</div></div>
+        <div class="db-right"><div class="db-num">~118g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="gym-banner fade fd1"><div class="gym-ico">🏋️</div><div class="gym-text"><div class="gym-t">Post-gym today (5–7 PM)</div><div class="gym-s">1 scoop whey (45g) + 5g creatine — right after session</div></div><div class="gym-badge">+45g protein</div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Moong dal chilla (2 large) · Green chutney · 100g curd</div>
+        <div class="pbadge">~25g protein</div>
+      </div>
+      <div class="mc l fade fd2">
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">2 jowar / ragi roti · Dal + sabji · Mixed salad · 250ml curd</div>
+        <div class="options-label">Swap roti for</div>
+        <div class="chips"><span class="chip">Rice (120g)</span><span class="chip">2 chapatti</span></div>
+        <div class="pbadge">~20g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM (pre-gym)</div></div>
+        <div class="mc-main">Roasted chana (30g) · Green tea</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Makhana (30g)</span><span class="chip">Banana</span><span class="chip">2 dates</span></div>
+        <div class="pbadge">~5g protein</div>
+      </div>
+      <div class="mc d fade fd4 full">
+        <div class="mc-header"><div class="mc-type">Dinner</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">Sautéed paneer (120g) + veggies</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Paneer bhurji (100g)</span><span class="chip">Dal + roti</span><span class="chip">Moong dal chilla</span><span class="chip">Vegetable daliya</span></div>
+        <div class="pbadge">~25g protein</div>
+      </div>
+    </div>
+
+    <!-- ─── TUESDAY ─── (no eggs ever) -->
+    <div id="dv-tue" class="day-view">
+      <div class="day-banner fade">
+        <div class="db-left"><div class="db-day">Tuesday</div><div class="db-sub">Gym day · no eggs today (your rule)</div></div>
+        <div class="db-right"><div class="db-num">~120g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="gym-banner fade fd1"><div class="gym-ico">🏋️</div><div class="gym-text"><div class="gym-t">Post-gym today (5–7 PM)</div><div class="gym-s">1 scoop whey (45g) + 5g creatine — right after session</div></div><div class="gym-badge">+45g protein</div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Overnight oats (40g) · 150g Greek yogurt / hung curd · Fruit + chia seeds</div>
+        <div class="pbadge">~25g protein</div>
+      </div>
+      <div class="mc l fade fd2">
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">2 ragi roti · Paneer bhurji (100g) · Salad · 250ml curd</div>
+        <div class="options-label">Swap paneer for</div>
+        <div class="chips"><span class="chip">Soya keema sabji</span><span class="chip">Chole</span><span class="chip">Rajma</span></div>
+        <div class="pbadge">~28g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM (pre-gym)</div></div>
+        <div class="mc-main">Makhana (25–30g) · Green tea</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Banana</span><span class="chip">2 dates</span><span class="chip">Mixed nuts (small)</span></div>
+        <div class="pbadge">~4g protein</div>
+      </div>
+      <div class="mc d fade fd4 full">
+        <div class="mc-header"><div class="mc-type">Dinner</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">Sautéed paneer (100g) + veggies · 1 ragi roti</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Moong dal chilla</span><span class="chip">Dal + sabji + roti</span><span class="chip">Vegetable daliya</span><span class="chip">Sprouts bowl</span></div>
+        <div class="pbadge">~22g protein</div>
+      </div>
+    </div>
+
+    <!-- ─── WEDNESDAY ─── rest or light day -->
+    <div id="dv-wed" class="day-view">
+      <div class="day-banner fade">
+        <div class="db-left"><div class="db-day">Wednesday</div><div class="db-sub">Rest day or light walk</div></div>
+        <div class="db-right"><div class="db-num">~75g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="rest-banner fade fd1"><div>🚶</div><div><div class="rb-t">Rest day — no whey today</div><div class="rb-note">Creatine still → take 5g with water after lunch</div></div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Upma or poha · Add peanuts lightly · 100g curd</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Moong dal chilla</span><span class="chip">Suji besan chilla</span><span class="chip">Mix fruit bowl</span></div>
+        <div class="pbadge">~14g protein</div>
+      </div>
+      <div class="mc l fade fd2">
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">Rice (120g cooked) · Dal + sabji · Salad · 250ml curd</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">2 roti + dal + sabji</span><span class="chip">Khichdi + curd</span></div>
+        <div class="pbadge">~18g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM</div></div>
+        <div class="mc-main">Roasted chana (30g) · Green tea</div>
+        <div class="options-label">Or</div>
+        <div class="chips"><span class="chip">Mixed nuts (small)</span><span class="chip">Fruit</span></div>
+        <div class="pbadge">~5g protein</div>
+      </div>
+      <div class="mc d fade fd4 full">
+        <div class="mc-header"><div class="mc-type">Dinner</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">Moong dal chilla (2) · Green chutney · Curd</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Vegetable daliya</span><span class="chip">Dal + 1 roti</span><span class="chip">Paneer sabji (small)</span><span class="chip">Small bowl oats</span></div>
+        <div class="pbadge">~18g protein</div>
+      </div>
+    </div>
+
+    <!-- ─── THURSDAY ─── egg day #1 -->
+    <div id="dv-thu" class="day-view">
+      <div class="day-banner fade">
+        <div class="db-left"><div class="db-day">Thursday</div><div class="db-sub">Gym day · 🥚 Egg dinner (day 1 of 2)</div></div>
+        <div class="db-right"><div class="db-num">~120g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="gym-banner fade fd1"><div class="gym-ico">🏋️</div><div class="gym-text"><div class="gym-t">Post-gym today (5–7 PM)</div><div class="gym-s">1 scoop whey (45g) + 5g creatine — right after session</div></div><div class="gym-badge">+45g protein</div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Sprouts salad (moong + chana + methi) · Hung curd · 1 pomegranate</div>
+        <div class="pbadge">~22g protein</div>
+      </div>
+      <div class="mc l fade fd2">
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">2 jowar roti · Chole · Salad · 250ml curd</div>
+        <div class="options-label">Swap chole for</div>
+        <div class="chips"><span class="chip">Rajma</span><span class="chip">Soya keema sabji</span><span class="chip">Chana dal</span></div>
+        <div class="pbadge">~22g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM (pre-gym)</div></div>
+        <div class="mc-main">Makhana (25–30g) · Green tea</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Banana</span><span class="chip">2 dates</span></div>
+        <div class="pbadge">~4g protein</div>
+      </div>
+      <div class="mc d fade fd4 full">
+        <div class="egg-badge">🥚 Egg night</div>
+        <div class="mc-header"><div class="mc-type">Dinner</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">2 eggs — pick your style below · Sautéed veggies</div>
+        <div class="options-label">Egg style</div>
+        <div class="chips"><span class="chip">Half fry (2)</span><span class="chip">Boiled (2)</span><span class="chip">Egg bhurji</span><span class="chip">Omelette</span><span class="chip">Shakshuka (2 eggs)</span></div>
+        <div class="pbadge">~20g protein</div>
+      </div>
+    </div>
+
+    <!-- ─── FRIDAY ─── gym day, no eggs -->
+    <div id="dv-fri" class="day-view">
+      <div class="day-banner fade">
+        <div class="db-left"><div class="db-day">Friday</div><div class="db-sub">Gym day · whey post-workout</div></div>
+        <div class="db-right"><div class="db-num">~118g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="gym-banner fade fd1"><div class="gym-ico">🏋️</div><div class="gym-text"><div class="gym-t">Post-gym today (5–7 PM)</div><div class="gym-s">1 scoop whey (45g) + 5g creatine — right after session</div></div><div class="gym-badge">+45g protein</div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Suji besan chilla (2) · Green chutney · 100g curd</div>
+        <div class="options-label">Or swap for</div>
+        <div class="chips"><span class="chip">Moong dal chilla</span><span class="chip">Sprouts bowl</span></div>
+        <div class="pbadge">~22g protein</div>
+      </div>
+      <div class="mc l fade fd2">
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">Dal + 2 ragi roti · Mixed salad · 250ml curd</div>
+        <div class="options-label">Boost protein with</div>
+        <div class="chips"><span class="chip">Add paneer (50g) to dal</span><span class="chip">Soya keema instead</span></div>
+        <div class="pbadge">~20g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM (pre-gym)</div></div>
+        <div class="mc-main">Makhana (25–30g) · Green tea</div>
+        <div class="options-label">Or</div>
+        <div class="chips"><span class="chip">Banana</span><span class="chip">Roasted chana</span></div>
+        <div class="pbadge">~4g protein</div>
+      </div>
+      <div class="mc d fade fd4 full">
+        <div class="mc-header"><div class="mc-type">Dinner</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">Bhaji (without pav) · Sautéed veggies</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Paneer bhurji (100g)</span><span class="chip">Dal + roti</span><span class="chip">Moong dal chilla</span></div>
+        <div class="pbadge">~18g protein</div>
+      </div>
+    </div>
+
+    <!-- ─── SATURDAY ─── egg day #2 -->
+    <div id="dv-sat" class="day-view">
+      <div class="day-banner fade">
+        <div class="db-left"><div class="db-day">Saturday</div><div class="db-sub">Gym day · 🥚 Egg dinner (day 2 of 2)</div></div>
+        <div class="db-right"><div class="db-num">~117g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="gym-banner fade fd1"><div class="gym-ico">🏋️</div><div class="gym-text"><div class="gym-t">Post-gym today (5–7 PM)</div><div class="gym-s">1 scoop whey (45g) + 5g creatine — right after session</div></div><div class="gym-badge">+45g protein</div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Dosa + sambhar · Curd</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Idli (2) + sambhar</span><span class="chip">Uttapam + sambhar</span></div>
+        <div class="pbadge">~15g protein</div>
+      </div>
+      <div class="mc l fade fd2" style="position:relative;">
+        <div style="position:absolute;top:12px;right:12px;background:rgba(155,143,219,.12);border:1px solid rgba(155,143,219,.3);color:var(--lavender);font-size:9px;font-weight:700;letter-spacing:.5px;padding:2px 8px;border-radius:100px;">★ Bi-weekly</div>
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">Masala soya chaap (2 pieces) · 1 roti · Salad</div>
+        <div class="options-label">Other Saturdays use</div>
+        <div class="chips"><span class="chip">Paneer rice bowl</span><span class="chip">Chole + 1 roti</span><span class="chip">Rajma chawal (small)</span></div>
+        <div class="pbadge">~24g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM (pre-gym)</div></div>
+        <div class="mc-main">Roasted chana · Green tea</div>
+        <div class="options-label">Or</div>
+        <div class="chips"><span class="chip">Fresh fruit</span><span class="chip">2 dates</span></div>
+        <div class="pbadge">~5g protein</div>
+      </div>
+      <div class="mc d fade fd4 full">
+        <div class="egg-badge">🥚 Egg night</div>
+        <div class="mc-header"><div class="mc-type">Dinner</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">2 eggs — pick your style · Sautéed veggies</div>
+        <div class="options-label">Egg style</div>
+        <div class="chips"><span class="chip">Shakshuka (2 eggs)</span><span class="chip">Egg bhurji</span><span class="chip">Omelette</span><span class="chip">Half fry (2)</span><span class="chip">Boiled (2)</span></div>
+        <div class="pbadge">~18g protein</div>
+      </div>
+    </div>
+
+    <!-- ─── SUNDAY ─── flex + rest -->
+    <div id="dv-sun" class="day-view">
+      <div class="day-banner fade" style="border-color:rgba(155,143,219,.3)">
+        <div class="db-left"><div class="db-day">Sunday</div><div class="db-sub">Rest day · Flex dinner</div></div>
+        <div class="db-right"><div class="db-num">~72g</div><div class="db-unit">total protein / day</div></div>
+      </div>
+      <div class="rest-banner fade fd1"><div>🧘</div><div><div class="rb-t">Rest day — no whey today</div><div class="rb-note">Creatine still → take 5g with water after lunch</div></div></div>
+      <div class="mc b fade fd1">
+        <div class="mc-header"><div class="mc-type">Breakfast</div><div class="mc-time">9–11 AM</div></div>
+        <div class="mc-main">Uttapam + sambhar · Curd</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Sautéed idli + sambhar</span><span class="chip">Poha + peanuts</span><span class="chip">Mix fruit bowl</span></div>
+        <div class="pbadge">~16g protein</div>
+      </div>
+      <div class="mc l fade fd2">
+        <div class="mc-header"><div class="mc-type">Lunch</div><div class="mc-time">1–3 PM</div></div>
+        <div class="mc-main">Light dal soup · Paneer sabji (small)</div>
+        <div class="options-label">Or pick one</div>
+        <div class="chips"><span class="chip">Rajma chawal (ctrl)</span><span class="chip">Khichdi + curd</span><span class="chip">2 roti + sabji</span></div>
+        <div class="pbadge">~18g protein</div>
+      </div>
+      <div class="mc s fade fd3">
+        <div class="mc-header"><div class="mc-type">Snack</div><div class="mc-time">5 PM</div></div>
+        <div class="mc-main">Fruit + 4–5 almonds</div>
+        <div class="pbadge">~4g protein</div>
+      </div>
+      <div class="mc d fade fd4 full" style="border-color:rgba(155,143,219,.3)">
+        <div style="position:absolute;top:12px;right:14px;background:var(--lav-dim);border:1px solid rgba(155,143,219,.3);border-radius:100px;padding:3px 10px;"><span style="font-size:9px;font-weight:700;color:var(--lavender);letter-spacing:.5px;">FLEX MEAL</span></div>
+        <div class="mc-header"><div class="mc-type">Dinner · Pick one</div><div class="mc-time">8–9 PM</div></div>
+        <div class="mc-main">One controlled flex meal this week</div>
+        <div class="chips" style="margin-top:10px;"><span class="chip">Chole kulche (ctrl)</span><span class="chip">Bhaji (no pav)</span><span class="chip">Pasta aglio olio</span><span class="chip">Daliya</span><span class="chip">Bhelpuri</span></div>
+        <div class="pbadge">~14g protein</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ WEEKLY TABLE ══════ -->
+<div id="tab-weekly" class="panel">
+  <div class="section">
+    <div class="sec-lbl">Full Weekly Overview</div>
+    <p class="scroll-hint" style="margin-bottom:12px;">Scroll to see all days</p>
+    <div class="table-scroll">
+      <table class="wtbl">
+        <thead><tr><th>Meal</th><th>Mon 🏋️</th><th>Tue 🏋️</th><th>Wed 🚶</th><th>Thu 🏋️🥚</th><th>Fri 🏋️</th><th>Sat 🏋️🥚</th><th>Sun 🧘</th></tr></thead>
+        <tbody>
+          <tr class="rb"><td>🌅 Breakfast<br><small>9–11 AM</small></td><td>Moong dal chilla (2)<br>Green chutney · 100g curd</td><td>Overnight oats (40g)<br>Greek yogurt · chia · fruit</td><td>Upma or poha<br>Peanuts · 100g curd</td><td>Sprouts salad<br>Hung curd · pomegranate</td><td>Suji besan chilla (2)<br>Green chutney · curd</td><td>Dosa + sambhar · curd<span class="alt-t">or Idli / Uttapam</span></td><td>Uttapam + sambhar<span class="alt-t">or Poha / fruit bowl</span></td></tr>
+          <tr class="rp"><td>Protein</td><td>~25g</td><td>~25g</td><td>~14g</td><td>~22g</td><td>~22g</td><td>~15g</td><td>~16g</td></tr>
+          <tr class="rl"><td>☀️ Lunch<br><small>1–3 PM</small></td><td>2 jowar roti<br>Dal + sabji + salad + curd</td><td>2 ragi roti<br>Paneer bhurji (100g) + curd</td><td>Rice (120g)<br>Dal + sabji + salad + curd</td><td>2 jowar roti<br>Chole + salad + curd<span class="alt-t">or Rajma / Soya keema</span></td><td>Dal + 2 ragi roti<br>Salad + 250ml curd</td><td>Masala soya chaap* (2)<br>1 roti + salad<span class="alt-t">★ Bi-weekly</span></td><td>Light dal soup<br>Paneer sabji (small)<span class="alt-t">or Khichdi + curd</span></td></tr>
+          <tr class="rp"><td>Protein</td><td>~20g</td><td>~28g</td><td>~18g</td><td>~22g</td><td>~20g</td><td>~24g</td><td>~18g</td></tr>
+          <tr class="rs"><td>🍵 Snack<br><small>5 PM</small></td><td>Roasted chana + green tea</td><td>Makhana + green tea</td><td>Roasted chana + green tea</td><td>Makhana + green tea</td><td>Makhana + green tea</td><td>Roasted chana + green tea</td><td>Fruit + almonds</td></tr>
+          <tr class="rgym"><td>🏋️ Post-gym<br><small>5–7 PM</small></td><td>Whey (45g) + Creatine (5g)</td><td>Whey (45g) + Creatine (5g)</td><td style="color:var(--text2);font-style:italic;">Rest — Creatine (5g) only</td><td>Whey (45g) + Creatine (5g)</td><td>Whey (45g) + Creatine (5g)</td><td>Whey (45g) + Creatine (5g)</td><td style="color:var(--text2);font-style:italic;">Rest — Creatine (5g) only</td></tr>
+          <tr class="rd"><td>🌙 Dinner</td><td>Sautéed paneer (120g) + veggies<span class="alt-t">or Dal roti / Daliya</span></td><td>Sautéed paneer + veggies + roti<span class="alt-t">or Moong dal chilla</span></td><td>Moong dal chilla (2)<span class="alt-t">or Daliya / Dal roti</span></td><td><strong style="color:var(--coral)">🥚</strong> 2 eggs (any style)<br>Sautéed veggies</td><td>Bhaji (no pav)<span class="alt-t">or Paneer bhurji / Dal roti</span></td><td><strong style="color:var(--coral)">🥚</strong> 2 eggs (any style)<br>Sautéed veggies</td><td><strong style="color:var(--lavender)">FLEX</strong> — chole kulche / bhaji / pasta / daliya</td></tr>
+          <tr class="rp"><td>Protein</td><td>~25g</td><td>~22g</td><td>~18g</td><td>~20g</td><td>~18g</td><td>~18g</td><td>~14g</td></tr>
+          <tr class="rt"><td>TOTAL<br><small style="color:var(--text2);font-size:9px;">incl. whey (gym days)</small></td><td>~118g</td><td>~120g</td><td>~75g</td><td>~120g</td><td>~118g</td><td>~117g</td><td>~72g</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--text2);margin-top:12px;">Rest days (Wed + Sun) are intentionally lower — your body recovers and doesn't need the same intake. Total weekly average including rest days is ~103g/day, well within healthy range for your goal.</p>
+  </div>
+</div>
+
+<!-- ══════ PROTEIN CHART ══════ -->
+<div id="tab-protein" class="panel">
+  <div class="section">
+    <div class="sec-lbl">Protein Distribution</div>
+    <div class="chart-wrap">
+      <div>
+        <div class="legend" style="margin-bottom:18px;">
+          <span class="leg-i"><span class="leg-dot" style="background:var(--gold)"></span>Breakfast</span>
+          <span class="leg-i"><span class="leg-dot" style="background:var(--teal)"></span>Lunch</span>
+          <span class="leg-i"><span class="leg-dot" style="background:var(--lavender)"></span>Dinner</span>
+          <span class="leg-i"><span class="leg-dot" style="background:var(--green)"></span>Whey</span>
+        </div>
+        <div class="bars" id="bar-chart"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="breakdown-box">
+          <div class="bx-title">Average source breakdown</div>
+          <div class="bx-rows" id="breakdown-list"></div>
+        </div>
+        <div class="target-box">
+          <div class="tt">✓ On-target for your goal</div>
+          <div class="ts">Gym days hit <strong style="color:var(--text)">115–120g</strong>. Rest days at ~72–75g is intentional — lower activity means lower need. Weekly average ~103g. Perfect for 75kg recomposition.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ TRACKER ══════ -->
+<div id="tab-tracker" class="panel">
+  <div class="section">
+    <div class="sec-lbl">Daily Meal Tracker</div>
+    <div class="today-card">
+      <div class="tc-day" id="tc-day-name">Today</div>
+      <div class="tc-date" id="tc-date"></div>
+      <div class="checks" id="today-checks"></div>
+      <div class="pbar-wrap"><div class="pbar-fill" id="today-bar" style="width:0%"></div></div>
+      <div class="pbar-txt" id="today-prog"></div>
+    </div>
+    <div class="sec-lbl">All Days</div>
+    <div class="week-tabs" id="wk-tabs"></div>
+    <div id="wk-content"></div>
+    <div style="margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <button onclick="resetTracker()" style="font-family:'Outfit',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:11px 22px;border-radius:100px;background:transparent;border:1px solid var(--border-s);color:var(--text2);cursor:pointer;min-height:44px;">Reset Week</button>
+      <span style="font-size:12px;color:var(--text2);" id="wk-prog"></span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ GUIDELINES ══════ -->
+<div id="tab-guidelines" class="panel">
+  <div class="section">
+    <div class="sec-lbl">Guidelines</div>
+    <div class="guide-grid">
+      <div class="gc fade fd1"><div class="gc-ico">🥚</div><div class="gc-body"><div class="gc-t">Eggs — 2 days/week only</div><div class="gc-s">Thursday + Saturday dinner</div><ul class="gc-list"><li>Max 2 eggs per session — no more</li><li>Rotate styles: half fry, bhurji, omelette, boiled, shakshuka</li><li>Never on Tuesday (your own rule)</li><li>Sautéed veggies always alongside</li></ul></div></div>
+      <div class="gc fade fd2"><div class="gc-ico">🥩</div><div class="gc-body"><div class="gc-t">Soya Chaap</div><div class="gc-s">Once every 2 weeks · Saturday lunch</div><ul class="gc-list"><li>2 pieces masala chaap ≈ 24g protein</li><li>Pair with 1 roti + salad only</li><li>Avoid cream-heavy gravy versions</li><li>On the off-week use paneer rice bowl or chole</li></ul></div></div>
+      <div class="gc fade fd3"><div class="gc-ico">🫘</div><div class="gc-body"><div class="gc-t">Thursday Protein Swaps</div><div class="gc-s">When chole isn't available</div><ul class="gc-list"><li>Rajma — same protein, easier digest</li><li>Soya keema sabji — highest protein (~28g)</li><li>Chana dal — lighter option</li><li>Paneer bhurji — always a fallback</li></ul></div></div>
+      <div class="gc fade fd4"><div class="gc-ico">🥑</div><div class="gc-body"><div class="gc-t">Healthy Fats Daily</div><div class="gc-s">Don't skip these</div><ul class="gc-list"><li>1 tsp ghee on roti — don't avoid it</li><li>Chia / flax seeds in oats or curd</li><li>5 almonds + 2 walnuts every morning</li><li>Peanuts in poha / upma</li></ul></div></div>
+      <div class="gc fade fd5"><div class="gc-ico">💊</div><div class="gc-body"><div class="gc-t">Creatine on Rest Days</div><div class="gc-s">Wednesday + Sunday</div><ul class="gc-list"><li>Still take 5g — consistency matters</li><li>Take with water after lunch</li><li>No whey on rest days — food protein is enough</li><li>Keep drinking 3L water even on rest days</li></ul></div></div>
+      <div class="gc fade"><div class="gc-ico">🌙</div><div class="gc-body"><div class="gc-t">Sunday Flex Dinner</div><div class="gc-s">One per week · stay controlled</div><ul class="gc-list"><li>No seconds on flex meals</li><li>Avoid pav with bhaji</li><li>Pasta — olive oil base only, no cream</li><li>Reset fully Monday morning</li></ul></div></div>
+      <div class="gc fade"><div class="gc-ico">💧</div><div class="gc-body"><div class="gc-t">Hydration</div><div class="gc-s">3–3.5L daily, always</div><ul class="gc-list"><li>Cinnamon warm water on wake-up</li><li>Creatine pulls water into muscles — stay ahead</li><li>Sip continuously through workout</li><li>Coconut water 1–2×/week is fine</li></ul></div></div>
+      <div class="gc fade"><div class="gc-ico">⏰</div><div class="gc-body"><div class="gc-t">Meal Timing</div><div class="gc-s">Gym at 5–7 PM</div><ul class="gc-list"><li>Snack at 5 PM doubles as light pre-gym fuel</li><li>Whey + creatine immediately post-session</li><li>Dinner 8–9 PM — your post-workout meal</li><li>Don't skip dinner even on non-gym days</li></ul></div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="sec-lbl">Always Avoid</div>
+    <div class="avoid-wrap">
+      <div class="av-chip">Sweets & chocolates</div><div class="av-chip">Ice cream</div>
+      <div class="av-chip">Cold drinks</div><div class="av-chip">Packaged juices</div>
+      <div class="av-chip">Maggi</div><div class="av-chip">Biscuits</div>
+      <div class="av-chip">Bread</div><div class="av-chip">Namkeen</div>
+      <div class="av-chip">Kachori</div><div class="av-chip">Samosa</div>
+      <div class="av-chip">Packed food</div><div class="av-chip">Maida products</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="ft-note">Valid 4–6 weeks · Don't skip meals · Reassess after 4 weeks · Eggs max 2×/week on Thu + Sat</div>
+  <div class="ft-tag" style="margin-top:6px;">Diet Plan · 75 kg · Priyam Somani</div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="bn active" onclick="switchTab('daily',this)"><span class="bn-ico">📅</span><span class="bn-lbl">Daily</span></button>
+  <button class="bn" onclick="switchTab('weekly',this)"><span class="bn-ico">📊</span><span class="bn-lbl">Weekly</span></button>
+  <button class="bn" onclick="switchTab('protein',this)"><span class="bn-ico">⚡</span><span class="bn-lbl">Protein</span></button>
+  <button class="bn" onclick="switchTab('tracker',this)"><span class="bn-ico">✅</span><span class="bn-lbl">Tracker</span></button>
+  <button class="bn" onclick="switchTab('guidelines',this)"><span class="bn-ico">📋</span><span class="bn-lbl">Rules</span></button>
+</nav>
+
+<script>
+// ── TABS ──
+function switchTab(id,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.dtab,.bn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('[onclick*="switchTab(\''+id+'\'"]').forEach(b=>b.classList.add('active'));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='protein')renderChart();
+  if(id==='tracker')renderTracker();
+}
+
+// ── DAY SWITCHING ──
+const DAY_MAP=['sun','mon','tue','wed','thu','fri','sat'];
+const TODAY_IDX=new Date().getDay();
+const TODAY_KEY=DAY_MAP[TODAY_IDX];
+const DAY_LABELS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DAY_KEYS=['mon','tue','wed','thu','fri','sat','sun'];
+
+function switchDay(id,el){
+  document.querySelectorAll('.day-view').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('#dayPills .dpill').forEach(b=>b.classList.remove('active'));
+  document.getElementById('dv-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  // default to today
+  const key=TODAY_KEY||'mon';
+  const btn=document.querySelector(`#dayPills button[onclick*="'${key}'"]`);
+  if(btn){document.querySelectorAll('#dayPills .dpill').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  switchDay(key,null);
+
+  // chip toggle
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>c.classList.toggle('sel'));
+  });
+});
+
+// ── PROTEIN CHART ──
+const PD={
+  days:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+  b:[25,25,14,22,22,15,16],
+  l:[20,28,18,22,20,24,18],
+  d:[25,22,18,20,18,18,14],
+  w:[45,45,0,45,45,45,0],
+};
+const PC={b:'#c8973a',l:'#3db5a8',d:'#9b8fdb',w:'#4ab87a'};
+
+function renderChart(){
+  const ch=document.getElementById('bar-chart');
+  const br=document.getElementById('breakdown-list');
+  if(ch.children.length>0)return;
+  const maxT=140;
+  PD.days.forEach((day,i)=>{
+    const total=PD.b[i]+PD.l[i]+PD.d[i]+PD.w[i];
+    const h=(total/maxT)*100;
+    const g=document.createElement('div');
+    g.style.cssText='flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;';
+    const tl=document.createElement('div');
+    tl.style.cssText='font-size:10px;font-weight:600;color:var(--gold2);font-family:Outfit,sans-serif;';
+    tl.textContent=total+'g';
+    const stack=document.createElement('div');
+    stack.style.cssText=`width:100%;height:${h}%;border-radius:5px 5px 0 0;overflow:hidden;display:flex;flex-direction:column-reverse;`;
+    stack.title=`${day}: ${total}g`;
+    [['w','d','l','b']].flat().forEach(k=>{
+      if(!PD[k][i])return;
+      const seg=document.createElement('div');
+      seg.style.cssText=`width:100%;height:${(PD[k][i]/total)*100}%;background:${PC[k]};`;
+      stack.appendChild(seg);
+    });
+    const dl=document.createElement('div');
+    dl.style.cssText='font-size:9px;font-weight:700;color:var(--text2);font-family:Outfit,sans-serif;letter-spacing:.5px;margin-top:3px;';
+    dl.textContent=day;
+    g.appendChild(tl);g.appendChild(stack);g.appendChild(dl);
+    ch.appendChild(g);
+  });
+  const sources=[
+    {lbl:'Breakfast (avg)',val:Math.round(PD.b.reduce((a,b)=>a+b)/7)+'g',c:PC.b},
+    {lbl:'Lunch (avg)',val:Math.round(PD.l.reduce((a,b)=>a+b)/7)+'g',c:PC.l},
+    {lbl:'Dinner (avg)',val:Math.round(PD.d.reduce((a,b)=>a+b)/7)+'g',c:PC.d},
+    {lbl:'Whey (gym days only)',val:'45g × 5 days',c:PC.w},
+  ];
+  sources.forEach(s=>{
+    const r=document.createElement('div');
+    r.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;';
+    r.innerHTML=`<span style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);"><span style="width:8px;height:8px;border-radius:50%;background:${s.c};display:inline-block;flex-shrink:0;"></span>${s.lbl}</span><span style="font-weight:600;color:var(--text);font-family:'Outfit',sans-serif;font-size:12px;">${s.val}</span>`;
+    br.appendChild(r);
+  });
+  const tr=document.createElement('div');
+  tr.style.cssText='display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid var(--border-s);margin-top:4px;';
+  tr.innerHTML=`<span style="font-size:13px;color:var(--text);font-weight:600;">Weekly average</span><span style="font-weight:700;color:var(--gold2);font-family:'Cormorant Garamond',serif;font-size:22px;">~103g</span>`;
+  br.appendChild(tr);
+}
+
+// ── TRACKER ──
+const MEALS=['Warm water','Nuts & coffee','Breakfast','Lunch','Snack','Post-gym whey','Dinner','Green tea'];
+const TKEY='dp75v3';
+
+function getS(){try{return JSON.parse(localStorage.getItem(TKEY))||{};}catch{return {};}}
+function setS(s){try{localStorage.setItem(TKEY,JSON.stringify(s));}catch{}}
+
+let activeTDay=DAY_KEYS[TODAY_IDX===0?6:TODAY_IDX-1];
+
+function renderTracker(){
+  if(document.getElementById('wk-tabs').children.length>0){refreshTracker();return;}
+  const dFull=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const tIdx=TODAY_IDX===0?6:TODAY_IDX-1;
+  document.getElementById('tc-day-name').textContent='Today — '+dFull[tIdx];
+  document.getElementById('tc-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  buildChecks('today-checks',DAY_LABELS[tIdx],true);
+
+  const tabs=document.getElementById('wk-tabs');
+  DAY_LABELS.forEach((d,i)=>{
+    const b=document.createElement('button');
+    b.className='wt-btn'+(d===activeTDay.slice(0,3).replace(/^./,c=>c.toUpperCase())||DAY_LABELS[tIdx]===d?' active':'');
+    b.textContent=d;
+    b.addEventListener('click',()=>{
+      activeTDay=DAY_KEYS[i];
+      document.querySelectorAll('.wt-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('wk-content').innerHTML='';
+      buildChecks('wk-content',d,false);
+      refreshTracker();
+    });
+    tabs.appendChild(b);
+  });
+  buildChecks('wk-content',DAY_LABELS[tIdx],false);
+  refreshTracker();
+}
+
+function buildChecks(cid,dayLbl,isToday){
+  const container=document.getElementById(cid);
+  container.innerHTML='';
+  const s=getS();
+  const wrap=isToday?container:Object.assign(document.createElement('div'),{className:'checks'});
+  if(isToday)container.className='checks';
+  MEALS.forEach(meal=>{
+    const key=`${dayLbl}-${meal}`;
+    const done=!!s[key];
+    const item=document.createElement('div');
+    item.className='ci'+(done?' done':'');
+    item.innerHTML=`<div class="cbox">${done?'✓':''}</div><span class="clbl">${meal}</span>`;
+    item.addEventListener('click',()=>{
+      const st=getS();st[key]=!st[key];setS(st);
+      item.classList.toggle('done');
+      item.querySelector('.cbox').textContent=st[key]?'✓':'';
+      refreshTracker();
+    });
+    (isToday?container:wrap).appendChild(item);
+  });
+  if(!isToday)container.appendChild(wrap);
+}
+
+function refreshTracker(){
+  const s=getS();
+  const total=7*MEALS.length;const done=Object.values(s).filter(Boolean).length;
+  const wp=document.getElementById('wk-prog');if(wp)wp.textContent=`${done} of ${total} meals tracked this week`;
+  const tIdx=TODAY_IDX===0?6:TODAY_IDX-1;
+  const tDay=DAY_LABELS[tIdx];
+  const tDone=MEALS.filter(m=>s[`${tDay}-${m}`]).length;
+  const pct=Math.round((tDone/MEALS.length)*100);
+  const bar=document.getElementById('today-bar');const prog=document.getElementById('today-prog');
+  if(bar)bar.style.width=pct+'%';
+  if(prog)prog.textContent=`${tDone} of ${MEALS.length} done today (${pct}%)`;
+}
+
+function resetTracker(){
+  if(!confirm('Reset all tracked meals?'))return;
+  try{localStorage.removeItem(TKEY);}catch{}
+  document.getElementById('wk-tabs').innerHTML='';
+  document.getElementById('wk-content').innerHTML='';
+  renderTracker();
+}
+</script>
+</body>
+</html>
